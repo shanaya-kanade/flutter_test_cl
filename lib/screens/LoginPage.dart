@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_test_cl/utils/storageUtilities.dart';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_test_cl/graphql/login_query.dart';
+import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 
 import '../main.dart';
 
@@ -17,14 +18,103 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   String email;
   String password;
+  String _userToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserToken();
+  }
+
+  _getUserToken() async {
+    String userToken = await StorageUtlities.getStringValue('UserToken');
+    setState(() {
+      _userToken = userToken;
+    });
+  }
+
+  LocalAuthentication auth = LocalAuthentication();
+
+  // bool _canCheckBiometrics;
+  // List<BiometricType> _availableBiometrics;
+  String _authorized = "Not Authorized";
+  bool _isAuthenticating = false;
+
+  // Future<void> _checkBiometrics() async {
+  //   bool canCheckBiometrics;
+  //   try {
+  //     canCheckBiometrics = await auth.canCheckBiometrics;
+  //   } on PlatformException catch (e) {
+  //     print(e);
+  //   }
+
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _canCheckBiometrics = canCheckBiometrics;
+  //   });
+  // }
+
+  // Future<void> _getAvailableBiometrics() async {
+  //   List<BiometricType> availableBiometrics;
+  //   try {
+  //     availableBiometrics = await auth.getAvailableBiometrics();
+  //   } on PlatformException catch (e) {
+  //     print(e);
+  //   }
+
+  //   setState(() {
+  //     _availableBiometrics = availableBiometrics;
+  //   });
+  // }
+
+  Future<void> _authenticate() async {
+    bool authenticated = false;
+    try {
+      setState(() {
+        _isAuthenticating = true;
+        _authorized = 'Authenticating';
+      });
+
+      authenticated = await auth.authenticateWithBiometrics(
+          localizedReason: 'Scan your fingerprint to authenticate',
+          useErrorDialogs: true,
+          stickyAuth: true);
+
+      setState(() {
+        _isAuthenticating = false;
+        _authorized = 'Authenticating';
+      });
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _authorized = authenticated ? "Authorized" : "Not Authorized";
+      Navigator.pushNamed(context, ProfilesRoute);
+    });
+  }
+
+  void _cancelAuthentication() {
+    try {
+      auth.stopAuthentication();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   setUserToken(userToken) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userToken', userToken);
+    StorageUtlities.setStringValue("UserToken", userToken);
+
+    setState(() {
+      _userToken = userToken;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    //bool isTokenAvailable = _userToken != null;
     final emailField = Padding(
         padding: EdgeInsets.all(8.0),
         child: TextField(
@@ -100,7 +190,36 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[emailField, passwordField, loginBtn],
+          children: <Widget>[
+            _userToken == null
+                ? emailField
+                : Container(
+                    key: Key('One'),
+                  ),
+            _userToken == null
+                ? passwordField
+                : Container(
+                    key: Key('2'),
+                  ),
+            _userToken == null
+                ? loginBtn
+                : Container(
+                    key: Key('3'),
+                  ),
+            _userToken != null
+                ? Text('Current State: $_authorized\n')
+                : Container(),
+            _userToken != null
+                ? RaisedButton(
+                    child: Text(_isAuthenticating ? 'Cancel' : 'Authenticate'),
+                    onPressed: _isAuthenticating
+                        ? _cancelAuthentication
+                        : _authenticate,
+                  )
+                : Container(
+                    key: Key('4'),
+                  )
+          ],
         ),
       )),
     );
