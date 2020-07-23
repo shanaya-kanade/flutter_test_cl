@@ -32,10 +32,12 @@ class CounterScreenState extends State<CounterScreen> {
         floatingActionButton:
             Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
           FloatingActionButton(
+              key: Key('AddButton1'),
               heroTag: "btn3",
               onPressed: () => bloc.counterEventSink.add(IncrementEvent()),
               child: Icon(Icons.add)),
           FloatingActionButton(
+              key: Key('RemoveButton1'),
               heroTag: "btn4",
               onPressed: () => bloc.counterEventSink.add(DecrementEvent()),
               child: Icon(Icons.remove)),

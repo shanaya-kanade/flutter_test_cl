@@ -24,6 +24,17 @@ class CounterScreenState extends State<CounterScreenWithoutBloc> {
 
   @override
   Widget build(BuildContext context) {
+    final fb1 = FloatingActionButton(
+        key: Key('AddButton'),
+        heroTag: "btn1",
+        onPressed: _incrementCounter,
+        child: Icon(Icons.add));
+
+    final fb2 = FloatingActionButton(
+        key: Key('RemoveButton'),
+        heroTag: "btn2",
+        onPressed: _decrementCounter,
+        child: Icon(Icons.remove));
     return Scaffold(
         body: Center(
           child: Column(
@@ -35,14 +46,8 @@ class CounterScreenState extends State<CounterScreenWithoutBloc> {
         ),
         floatingActionButton:
             Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-          FloatingActionButton(
-              heroTag: "btn1",
-              onPressed: _incrementCounter,
-              child: Icon(Icons.add)),
-          FloatingActionButton(
-              heroTag: "btn2",
-              onPressed: _decrementCounter,
-              child: Icon(Icons.remove)),
+          fb1,
+          fb2,
         ]));
   }
 }

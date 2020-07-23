@@ -7,20 +7,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_test_cl/main.dart';
+import 'package:flutter_test_cl/screens/counterWithBloc/counterScreen.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Counter Screen With Bloc Test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MaterialApp(home: CounterScreen()));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
 
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.byKey(Key("AddButton1")));
     await tester.pump();
 
     // Verify that our counter has incremented.
