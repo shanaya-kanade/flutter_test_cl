@@ -16,15 +16,14 @@ import 'package:flutter_test_cl/screens/profile_detail/profile_detail.dart';
 import 'package:flutter_test_cl/style.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import 'graphql/GraphQLConfiguration.dart';
 import 'models/familyTreeModel.dart';
 
-//GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
-// void main() => runApp(
-//   GraphQLProvider(
-//     client: graphQLConfiguration.client,
-//     child: CacheProvider(child: MyApp()),
-//   )
-// );
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+// void main() => runApp(GraphQLProvider(
+//       client: graphQLConfiguration.client,
+//       child: CacheProvider(child: MyApp()),
+//     ));
 
 void main() => runApp(MyApp());
 

@@ -20,28 +20,36 @@ class FamilyTreeState extends State<FamilyTree> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF167F67),
+          title: Text(
+            'Capturing Notifications across screens',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
         body: Column(children: <Widget>[
-      Consumer<FamilyTreeModel>(
-          builder: (context, model, child) => Column(children: <Widget>[
-                SizedBox(
-                    height: 200.0,
-                    child: DataTable(
-                        columns: [
-                          DataColumn(label: Text("Name"), numeric: false),
-                          DataColumn(
-                              label: Text("Relationship"), numeric: false)
-                        ],
-                        rows: model.items
-                            .map((familyDescription) => DataRow(cells: [
-                                  DataCell(Text(familyDescription.name)),
-                                  DataCell(Text(familyDescription.relationship))
-                                ]))
-                            .toList())),
-                RaisedButton(
-                  child: Text("Go to Add screen"),
-                  onPressed: () => _gotoAddRemovePage(context),
-                )
-              ]))
-    ]));
+          Consumer<FamilyTreeModel>(
+              builder: (context, model, child) => Column(children: <Widget>[
+                    SizedBox(
+                        height: 200.0,
+                        child: DataTable(
+                            columns: [
+                              DataColumn(label: Text("Name"), numeric: false),
+                              DataColumn(
+                                  label: Text("Relationship"), numeric: false)
+                            ],
+                            rows: model.items
+                                .map((familyDescription) => DataRow(cells: [
+                                      DataCell(Text(familyDescription.name)),
+                                      DataCell(
+                                          Text(familyDescription.relationship))
+                                    ]))
+                                .toList())),
+                    RaisedButton(
+                      child: Text("Go to Add screen"),
+                      onPressed: () => _gotoAddRemovePage(context),
+                    )
+                  ]))
+        ]));
   }
 }

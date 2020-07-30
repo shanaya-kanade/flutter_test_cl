@@ -36,11 +36,29 @@ class CounterScreenState extends State<CounterScreenWithoutBloc> {
         onPressed: _decrementCounter,
         child: Icon(Icons.remove));
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF167F67),
+          title: Text(
+            'Counter Screen without Bloc',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
         body: Center(
           child: Column(
             children: <Widget>[
-              Text('You have pushed the button so many times'),
-              Text('$_counter'),
+              //Text('You have pushed the button so many times'),
+              //Text('$_counter'),
+              Container(
+                padding: const EdgeInsets.fromLTRB(15.0, 32.0, 15.0, 4.0),
+                child: Text("# of times data pushed",
+                    style: Theme.of(context).textTheme.headline6),
+              ),
+              //Text('You have pushed the button so many times'),
+              Container(
+                padding: const EdgeInsets.fromLTRB(15.0, 32.0, 15.0, 4.0),
+                child: Text('$_counter',
+                    style: Theme.of(context).textTheme.bodyText1),
+              ),
             ],
           ),
         ),

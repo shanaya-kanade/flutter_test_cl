@@ -15,6 +15,13 @@ class CounterScreenState extends State<CounterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF167F67),
+          title: Text(
+            'Counter Screen With Bloc',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
         body: Center(
           child: StreamBuilder(
             stream: bloc.counter,
@@ -22,8 +29,18 @@ class CounterScreenState extends State<CounterScreen> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               return Column(
                 children: <Widget>[
-                  Text('You have pushed the button so many times'),
-                  Text('${snapshot.data}'),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(15.0, 32.0, 15.0, 4.0),
+                    child: Text("# of times data pushed",
+                        style: Theme.of(context).textTheme.headline6),
+                  ),
+                  //Text('You have pushed the button so many times'),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(15.0, 32.0, 15.0, 4.0),
+                    child: Text('${snapshot.data}',
+                        style: Theme.of(context).textTheme.bodyText1),
+                  ),
+                  //Text('${snapshot.data}'),
                 ],
               );
             },

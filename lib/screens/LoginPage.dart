@@ -191,27 +191,14 @@ class LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _userToken == null
-                ? emailField
-                : Container(
-                    key: Key('One'),
-                  ),
-            _userToken == null
-                ? passwordField
-                : Container(
-                    key: Key('2'),
-                  ),
-            _userToken == null
-                ? loginBtn
-                : Container(
-                    key: Key('3'),
-                  ),
-            _userToken != null
-                ? Text('Current State: $_authorized\n')
-                : Container(),
+            emailField,
+            passwordField,
+            loginBtn,
             _userToken != null
                 ? RaisedButton(
-                    child: Text(_isAuthenticating ? 'Cancel' : 'Authenticate'),
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    child: Text(
+                        _isAuthenticating ? 'Cancel' : 'Touch ID to Login'),
                     onPressed: _isAuthenticating
                         ? _cancelAuthentication
                         : _authenticate,
